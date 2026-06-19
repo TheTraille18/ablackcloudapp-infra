@@ -1,0 +1,4 @@
+aws_region       = "us-east-1"
+project_name     = "ablackcloudapp"
+environment      = "prod"
+site_bucket_name = "ablackcloudapp.com"
