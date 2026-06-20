@@ -16,6 +16,7 @@ resource "aws_cloudfront_distribution" "site" {
   comment             = "${var.project_name} ${var.environment} static site"
   default_root_object = "index.html"
   price_class         = var.price_class
+  aliases = [var.site_bucket_name]
 
   origin {
     domain_name              = aws_s3_bucket.site.bucket_regional_domain_name
@@ -31,7 +32,7 @@ resource "aws_cloudfront_distribution" "site" {
     compress               = true
 
     forwarded_values {
-      query_string = false
+      query_string = false 
 
       cookies {
         forward = "none"
