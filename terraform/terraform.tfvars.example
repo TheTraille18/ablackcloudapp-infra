@@ -1,5 +1,6 @@
 # Prod workspace (ablackcloudapp-prod)
-aws_region       = "us-east-1"
-project_name     = "ablackcloudapp"
-environment      = "prod"
-site_bucket_name = "ablackcloudapp.com"
+aws_region            = "us-east-1"
+project_name          = "ablackcloudapp"
+environment           = "prod"
+site_bucket_name      = "ablackcloudapp.com"
+acm_certificate_arn   = "arn:aws:acm:us-east-1:398080922284:certificate/YOUR-CERT-ID"

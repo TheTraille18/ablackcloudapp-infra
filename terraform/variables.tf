@@ -33,3 +33,9 @@ variable "enable_versioning" {
   type        = bool
   default     = true
 }
+
+variable "acm_certificate_arn" {
+  description = "ACM certificate ARN in us-east-1 for the CloudFront custom domain (prod only)."
+  type        = string
+  default     = null
+}
