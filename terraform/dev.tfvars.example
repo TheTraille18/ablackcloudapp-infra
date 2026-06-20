@@ -1,0 +1,5 @@
+# Dev workspace (ablackcloudapp-dev)
+aws_region       = "us-east-1"
+project_name     = "ablackcloudapp"
+environment      = "dev"
+site_bucket_name = "dev.ablackcloudapp.com"
