@@ -8,10 +8,10 @@ import {
   id = "ablackcloudapp.com"
 }
 
-import {
-  to = aws_s3_bucket_public_access_block.site
-  id = "ablackcloudapp.com"
-}
+//import {
+//  to = aws_s3_bucket_public_access_block.site
+//  id = "ablackcloudapp.com"
+//}
 
 import {
   to = aws_s3_bucket_website_configuration.site
