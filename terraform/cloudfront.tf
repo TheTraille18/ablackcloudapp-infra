@@ -1,4 +1,6 @@
 resource "aws_cloudfront_origin_access_control" "site" {
+  count = local.is_prod ? 1 : 0
+
   name                              = "${var.project_name}-${var.environment}-oac"
   description                       = "OAC for ${var.site_bucket_name}"
   origin_access_control_origin_type = "s3"
@@ -7,6 +9,8 @@ resource "aws_cloudfront_origin_access_control" "site" {
 }
 
 resource "aws_cloudfront_distribution" "site" {
+  count = local.is_prod ? 1 : 0
+
   enabled             = true
   is_ipv6_enabled     = true
   comment             = "${var.project_name} ${var.environment} static site"
@@ -16,7 +20,7 @@ resource "aws_cloudfront_distribution" "site" {
   origin {
     domain_name              = aws_s3_bucket.site.bucket_regional_domain_name
     origin_id                = "s3-${aws_s3_bucket.site.id}"
-    origin_access_control_id = aws_cloudfront_origin_access_control.site.id
+    origin_access_control_id = aws_cloudfront_origin_access_control.site[0].id
   }
 
   default_cache_behavior {
@@ -67,15 +71,17 @@ resource "aws_cloudfront_distribution" "site" {
   }
 }
 
-resource "aws_s3_bucket_policy" "site" {
+resource "aws_s3_bucket_policy" "site_cloudfront" {
+  count = local.is_prod ? 1 : 0
+
   bucket = aws_s3_bucket.site.id
 
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Sid       = "AllowCloudFrontServicePrincipal"
-        Effect    = "Allow"
+        Sid    = "AllowCloudFrontServicePrincipal"
+        Effect = "Allow"
         Principal = {
           Service = "cloudfront.amazonaws.com"
         }
@@ -83,7 +89,7 @@ resource "aws_s3_bucket_policy" "site" {
         Resource = "${aws_s3_bucket.site.arn}/*"
         Condition = {
           StringEquals = {
-            "AWS:SourceArn" = aws_cloudfront_distribution.site.arn
+            "AWS:SourceArn" = aws_cloudfront_distribution.site[0].arn
           }
         }
       }
