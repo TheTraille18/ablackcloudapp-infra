@@ -13,14 +13,19 @@ output "site_bucket_arn" {
   value       = aws_s3_bucket.site.arn
 }
 
+output "site_website_endpoint" {
+  description = "S3 website endpoint (dev). Null in prod where CloudFront is used."
+  value       = local.is_prod ? null : aws_s3_bucket_website_configuration.site.website_endpoint
+}
+
 output "cloudfront_distribution_id" {
-  description = "CloudFront distribution ID for cache invalidation."
-  value       = aws_cloudfront_distribution.site.id
+  description = "CloudFront distribution ID for cache invalidation (prod only)."
+  value       = local.is_prod ? aws_cloudfront_distribution.site[0].id : null
 }
 
 output "cloudfront_domain_name" {
-  description = "CloudFront URL for the deployed site."
-  value       = aws_cloudfront_distribution.site.domain_name
+  description = "CloudFront URL for the deployed site (prod only)."
+  value       = local.is_prod ? aws_cloudfront_distribution.site[0].domain_name : null
 }
 
 output "deploy_policy_arn" {
